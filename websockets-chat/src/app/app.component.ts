@@ -16,11 +16,13 @@ export class AppComponent {
   title = 'websockets-chat';
 
   userName = '';
-  users: User[] = [];
+  users2: User[] = [];
+  users: string[] = [];
 
   constructor(private websocketService: WebsocketService){
     this.websocketService.getMessages().subscribe(data => {
-      this.users.push(data);
+      this.users2.push(data);
+      this.users = data.users;
     })
   }
 

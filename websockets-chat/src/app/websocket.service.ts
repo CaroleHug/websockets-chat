@@ -8,14 +8,14 @@ import { Socket, io } from 'socket.io-client';
 export class WebsocketService {
 
   private socket: Socket;
-  private url = 'ws://localhost:8080';
+  private url = 'http://localhost:3000';
 
   constructor() { 
     this.socket = io(this.url);
   }
 
   addName(name: string) {
-    this.socket.emit('name', name)
+    this.socket.emit('add userName', name)
   }
 
   getMessages(): Observable<User> {
@@ -33,4 +33,5 @@ export class WebsocketService {
 
 export interface User {
   userName: string;
+  users: string[];
 }

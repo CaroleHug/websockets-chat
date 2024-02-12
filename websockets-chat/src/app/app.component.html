@@ -13,7 +13,7 @@
       <h2>All connected users</h2>
       <ul *ngIf="users.length>0">
         <li *ngFor="let user of users">
-          {{user.userName}}
+          {{user}}
         </li>
       </ul>
       <span *ngIf="users.length === 0">No connected users.</span>
