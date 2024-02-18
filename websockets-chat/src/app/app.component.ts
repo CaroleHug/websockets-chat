@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { WebsocketService } from './websocket.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { User } from './websocket.service';
+import { User } from './user';
+import { RetroService } from './retro.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,22 +14,24 @@ import { User } from './websocket.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   title = 'websockets-chat';
 
   userName = '';
-  users2: User[] = [];
   users: string[] = [];
+  subscription: Subscription;
 
-  constructor(private websocketService: WebsocketService){
-    this.websocketService.getMessages().subscribe(data => {
-      this.users2.push(data);
+  constructor(private websocketService: WebsocketService, private retroService: RetroService){
+    this.subscription = this.websocketService.getMessages().subscribe(data => {
       this.users = data.users;
     })
+  }
+  ngOnDestroy(): void {
+    this.websocketService.disconnect();
+    this.subscription.unsubscribe();
   }
 
   updateName(){
     this.websocketService.addName(this.userName);
   }
-
 }

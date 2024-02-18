@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Socket, io } from 'socket.io-client';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -23,15 +24,10 @@ export class WebsocketService {
       this.socket.on('new user', (data) => {
         observer.next(data);
       });
-
-      return () => {
-        this.socket.disconnect();
-      }
     })
   }
-}
 
-export interface User {
-  userName: string;
-  users: string[];
+  disconnect() {
+    this.socket.disconnect();
+  }
 }
